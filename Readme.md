@@ -12,7 +12,7 @@
    ```
    Replace _MODEL_NAME_ with any desired model.
    You can dowmload any embedding model or large language model.
-   Update LOCAL_EMBEDDEING_MODEL_NAME,LOCAL_EMBEDDER_DEFAULT_VECTOR_DIM and LOCAL_MODEL_NAME variables in the server/.env file. By default, the embedding model is set to '-mxbai-embed-large:latest', and the LLM model is set to 'deepseek-coder:6.7b-instruct'.
+   Update LOCAL_EMBEDDEING_MODEL_NAME, LOCAL_EMBEDDER_DEFAULT_VECTOR_DIM and LOCAL_MODEL_NAME variables in the server/.env file. By default, the embedding model is set to '-mxbai-embed-large:latest', and the LLM model is set to 'deepseek-coder:6.7b-instruct'.
 
 
 ### Start backend
