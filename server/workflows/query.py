@@ -6,6 +6,9 @@ from utils.logger import logger
 from servicebus.publisher import emit_query_response
 from config import appconfig
 
+import os
+local_model_base_url = os.getenv("LANGUAGE_MODEL_URL")
+
 
 def trigger_workflow(payload):
     query = QueryPayload.model_validate(payload)
@@ -49,9 +52,17 @@ def trigger_workflow(payload):
         "Answer: "
     )
 
-    client = OpenAI(api_key=appconfig.get("OPENAI_API_KEY"))
-    response = client.chat.completions.create(
+    if os.getenv("USE_OPENAI_MODEL")=="1":
+        client = OpenAI(api_key=appconfig.get("OPENAI_API_KEY"))
+        response = client.chat.completions.create(
         model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}],
+        stream=True,
+    )
+    else:
+        client = OpenAI( base_url=local_model_base_url,api_key='ollama')
+        response = client.chat.completions.create(
+        model=os.getenv("LOCAL_MODEL_NAME"),
         messages=[{"role": "user", "content": prompt}],
         stream=True,
     )
