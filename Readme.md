@@ -6,8 +6,7 @@
    pip install ollama
    ```
 2. (If you want to use OPENAI set USE_OPENAI_EMBEDDING="1" and USE_OPENAI_MODEL="1" in server/.env and skip this step.)
-   Download a model.
-   Run in terminal
+   To Download a model run in terminal-
    ```bash
    ollama pull _MODEL_NAME_
    ```
