@@ -6,8 +6,13 @@ from qdrant_client.http.exceptions import UnexpectedResponse
 
 from core.schema import Chunk
 from typing import List
+import os
 
-DEFAULT_VECTOR_DIM = 1536
+vec_dim=os.getenv("LOCAL_EMBEDDER_DEFAULT_VECTOR_DIM")
+if os.getenv("USE_OPENAI_EMBEDDING")=="1":
+    DEFAULT_VECTOR_DIM = 1536
+else :
+    DEFAULT_VECTOR_DIM=int(vec_dim)
 
 
 class VectorStore:
@@ -15,7 +20,7 @@ class VectorStore:
         self,
         collection_name: str,
         dim=DEFAULT_VECTOR_DIM,
-        base_url="172.17.0.1",
+        base_url="localhost",
         port=6333,
     ):
         print("base_url", base_url)
