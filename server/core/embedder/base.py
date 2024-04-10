@@ -4,7 +4,11 @@ from typing import Dict, List
 from config import appconfig
 from core.schema import Chunk
 from openai import OpenAI
+import requests
+import os 
 
+embedder_url=os.getenv("EMBEDDER_MODEL_URL")  
+local_embedder_model_name= os.getenv("LOCAL_EMBEDDEING_MODEL_NAME")
 
 class EmbeddingFailed(Exception):
     pass
@@ -18,12 +22,9 @@ class Embedder:
         nltk.download("stopwords")
         self.stop_words = stopwords.words("english")
 
-        if appconfig.get("USE_OPENAI_EMBEDDING"):
+        if appconfig.get("USE_OPENAI_EMBEDDING")=="1":
             self.model = OpenAI(api_key=appconfig.get("OPENAI_API_KEY"))
-        else:
-            from sentence_transformers import SentenceTransformer
-
-            self.model = SentenceTransformer("BAAI/bge-small-en-v1.5")
+        
 
     def _remove_stopwords(self, text: str) -> str:
         return " ".join([word for word in text.split() if word not in self.stop_words])
@@ -43,11 +44,11 @@ class Embedder:
         if input_type == "query":
             if appconfig.get("USE_OPENAI_EMBEDDING") == "1":
                 response = self.model.embeddings.create(
-                    input="Your text string goes here", model="text-embedding-3-small"
+                    input=query, model="text-embedding-3-small"
                 )
                 return response.data[0].embedding
-            embeddings = self.model.encode([query]).tolist()
-            return embeddings[0]
+            res = requests.post(embedder_url,json={'model': local_embedder_model_name,'prompt': query})
+            return res.json()['embedding']
 
         else:
             chunk_texts = [self._remove_stopwords(chunk.text) for chunk in chunk_batch]
@@ -63,10 +64,11 @@ class Embedder:
                     embeddings.extend([x.embedding for x in response.data])
 
             else:
-                embeddings = self.model.encode(
-                    chunk_texts,
-                    batch_size=50,
-                ).tolist()
+                for i in range(0, len(chunk_texts)):
+                    response = requests.post(embedder_url, json={'model': local_embedder_model_name, 'prompt': chunk_texts[i]})
+                    if response.status_code == 200:
+                        vectors=response.json()['embedding']
+                        embeddings.append(vectors)
 
             assert len(chunk_texts) == len(embeddings)
 
