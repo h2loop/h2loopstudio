@@ -23,8 +23,7 @@
 
    ```bash
    docker compose -f docker-compose.dev.yml up --build
-   ```
-3. 
+   ``` 
 
 ### For frontend
 
