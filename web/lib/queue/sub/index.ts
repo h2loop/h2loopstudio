@@ -2,10 +2,16 @@ import { config } from '@/config'
 import {
   handleAssetStatus,
   handleChatResponse,
+  handleDatasheetCode,
   handleDocStatus,
 } from '@/lib/queue/sub/handlers'
 import Redis from 'ioredis'
-import { ASSET_INGESTION_STATUS, DOC_STATUS, QUERY_RESPONSE } from './topics'
+import {
+  ASSET_INGESTION_STATUS,
+  DATASHEET_RESPONSE,
+  DOC_STATUS,
+  QUERY_RESPONSE,
+} from './topics'
 
 type ITopicCallbacks = Record<string, (message: string) => Promise<void>>
 
@@ -44,8 +50,13 @@ export const startConsuming = () => {
     [QUERY_RESPONSE]: handleChatResponse,
   }
 
+  const datasheetTopicsHandlers = {
+    [DATASHEET_RESPONSE]: handleDatasheetCode,
+  }
+
   processMessageFromQueue(config.ingestionResultQueue, ingestionTopicsHandlers)
   processMessageFromQueue(config.queryResultQueue, queryTopicsHandlers)
+  processMessageFromQueue(config.datasheetResultQueue, datasheetTopicsHandlers)
 }
 
 startConsuming()

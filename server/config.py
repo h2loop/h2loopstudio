@@ -22,8 +22,10 @@ class Config:
             "QDRANT_URI",
             "QUERY_TASK_QUEUE",
             "INGESTION_TASK_QUEUE",
+            "DATASHEET_TASK_QUEUE",
             "QUERY_RESULT_QUEUE",
             "INGESTION_RESULT_QUEUE",
+            "DATASHEET_RESULT_QUEUE",
             "USE_OPENAI_EMBEDDING",
             "USE_RERANKER",
         ]

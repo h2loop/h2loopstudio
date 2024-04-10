@@ -1,8 +1,14 @@
-from core.schema import QueryResponse, CustomDoc
+from core.schema import CodeResponse, QueryResponse, CustomDoc
 from .utils import publish_message
 from typing import List
 from config import appconfig
-from .topics import ASSET_DOCS, ASSET_INGESTION_STATUS, DOC_STATUS, QUERY_RESPONSE
+from .topics import (
+    ASSET_DOCS,
+    ASSET_INGESTION_STATUS,
+    DOC_STATUS,
+    QUERY_RESPONSE,
+    DATASHEET_RESPONSE,
+)
 
 
 def emit_doc_status(doc: CustomDoc):
@@ -53,6 +59,14 @@ def emit_asset_status(
             "message": message,
             "user": user,
         },
+    )
+
+
+def emit_datasheet_response(code: CodeResponse):
+    publish_message(
+        appconfig.get("DATASHEET_RESULT_QUEUE"),
+        DATASHEET_RESPONSE,
+        data=code.model_dump(),
     )
 
 

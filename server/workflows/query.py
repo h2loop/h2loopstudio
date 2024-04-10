@@ -22,7 +22,7 @@ def trigger_workflow(payload):
     #     contexts_dataset = contexts_dataset.map_batches(
     #         Reranker, num_cpus=1, batch_size=50, concurrency=(cpu - 1, cpu)
     #     )
-
+    print("######################\n", contexts_dataset)
     ranked_chunks = []
     for row in contexts_dataset:
         ranked_chunk = row.get("chunk")
@@ -36,14 +36,14 @@ def trigger_workflow(payload):
     relevant_contexts.sort(key=lambda x: x.score, reverse=True)
     context_texts = [
         f"[Metadata: {chunk.metadata}] \n Content: {chunk.text}"
-        for chunk in relevant_contexts[:15]
+        for chunk in relevant_contexts[:25]
     ]
     prompt = (
         "Context information is below."
         "---------------------\n"
         f"{context_texts}"
         "\n---------------------\n"
-        "Given the context information and not prior knowledge,answer the query. If the context is not relevant to the query, reply with, 'I'm sorry, but I cannot answer that question based on the given context information.'"
+        "Given the context information understand the question and answer the query relatng to the context. If the subject of context is not relevant to the query, you can reply with, 'I'm sorry, but I cannot answer that question based on the given context information.'"
         "If the question involves code, include relevant code snippets and filenames for a more comprehensive response."
         f"Question: {query.query}\n"
         "Answer: "

@@ -18,8 +18,10 @@ type configType = {
   redisPort: number
   ingestionTaskQueue: string
   queryTaskQueue: string
+  datasheetTaskQueue: string
   ingestionResultQueue: string
   queryResultQueue: string
+  datasheetResultQueue: string
   serviceApiKey: string
   s3Endpoint: string
   s3AccessKey: string
@@ -33,8 +35,10 @@ export const config: configType = {
   redisPort: Number(getEnv('REDIS_PORT')),
   ingestionTaskQueue: getEnv('INGESTION_TASK_QUEUE'),
   queryTaskQueue: getEnv('QUERY_TASK_QUEUE'),
+  datasheetTaskQueue: getEnv('DATASHEET_TASK_QUEUE'),
   ingestionResultQueue: getEnv('INGESTION_RESULT_QUEUE'),
   queryResultQueue: getEnv('QUERY_RESULT_QUEUE'),
+  datasheetResultQueue: getEnv('DATASHEET_RESULT_QUEUE'),
   serviceApiKey: getEnv('SERVICE_API_KEY'),
   s3Endpoint: getEnv('S3_ENDPOINT'),
   s3AccessKey: getEnv('S3_ACCESS_KEY'),

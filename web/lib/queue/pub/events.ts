@@ -1,6 +1,11 @@
 import { config } from '@/config'
 import { addMessageToQueue } from '@/lib/queue/pub'
-import { ASSET_DELETION, ASSET_INGESTION, QUERY_REQUEST } from './topics'
+import {
+  ASSET_DELETION,
+  ASSET_INGESTION,
+  DATASHEET_REQUEST,
+  QUERY_REQUEST,
+} from './topics'
 
 type IAssetIngestionPayload = {
   asset_id: string
@@ -23,6 +28,13 @@ type IQueryPayload = {
   asset_ids: string[]
 }
 
+type IDataSheetPayload = {
+  datasheet_id: string
+  datasheet_content: string
+  user: string
+  additional_instruction: string
+}
+
 export const enqueueIngestionJob = async (payload: IAssetIngestionPayload) => {
   await addMessageToQueue(config.ingestionTaskQueue, ASSET_INGESTION, payload)
 }
@@ -35,4 +47,10 @@ export const enqueueAssetDeletionJob = async (
 
 export const enqueueQueryJob = async (payload: IQueryPayload) => {
   await addMessageToQueue(config.queryTaskQueue, QUERY_REQUEST, payload)
+}
+
+export const enqueueDatasheetCodeGenerationJob = async (
+  payload: IDataSheetPayload
+) => {
+  await addMessageToQueue(config.datasheetTaskQueue, DATASHEET_REQUEST, payload)
 }

@@ -45,3 +45,22 @@ class QueryResponse(BaseModel):
     response: Optional[str] = ""
     complete: bool
     sources: Optional[List[str]] = []
+
+
+class DatasheetPayload(BaseModel):
+    datasheet_id: str
+    datasheet_content: str
+    additional_instruction: str
+    user: str
+
+
+class CodeFile(BaseModel):
+    fileName: str
+    code: str
+    language: str
+
+
+class CodeResponse(BaseModel):
+    datasheet_id: str
+    user: str
+    files: List[CodeFile]

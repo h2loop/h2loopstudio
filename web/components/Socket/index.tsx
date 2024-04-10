@@ -8,6 +8,7 @@ import {
 import {
   ASSET_STATUS_EVENT,
   CHAT_QUERY_REPLY_EVENT,
+  DATASHEET_REPLY_EVENT,
   SOCKET_CONNECTION_MESSAGE,
 } from '@/lib/socket/events'
 import useStore from '@/store'
@@ -24,6 +25,7 @@ const SocketConnector = () => {
   const updateAssetStatus = useStore((state) => state.updateAssetStatus)
   const deleteAsset = useStore((state) => state.deleteAsset)
   const addMessage = useStore((state) => state.addMessage)
+  const setDatasheetFiles = useStore((state) => state.setDatasheetFiles)
   // const activeChat = useStore((state) => state.activeChat)
 
   const connectSocket = async (session: Session) => {
@@ -44,6 +46,10 @@ const SocketConnector = () => {
       newSocket.emit(SOCKET_CONNECTION_MESSAGE, {
         userId: session?.user?.email,
       })
+    })
+
+    newSocket.on(DATASHEET_REPLY_EVENT, ({ files }) => {
+      setDatasheetFiles(files)
     })
 
     newSocket.on(ASSET_STATUS_EVENT, ({ assetId, status }) => {

@@ -4,6 +4,7 @@ import { Indicator, Text } from '@mantine/core'
 import {
   IconBulbFilled,
   IconChecklist,
+  IconCode,
   IconSettings,
   IconWhirl,
 } from '@tabler/icons-react'
@@ -26,6 +27,7 @@ export default function Sider() {
   const items = useMemo(
     () => [
       { title: 'Ask', path: '/', icon: <IconBulbFilled /> },
+      { title: 'Generate', path: '/generate', icon: <IconCode /> },
       { title: 'Projects', path: '/projects', icon: <IconWhirl /> },
       {
         title: 'Review',

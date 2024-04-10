@@ -4,6 +4,7 @@ from qdrant_client.http.exceptions import UnexpectedResponse
 from typing import List, Dict
 from core.schema import ContextChunk
 from config import appconfig
+
 DEFAULT_VECTOR_DIM = 384
 MODEL_CONTEXT_LENGTH = 4097
 
@@ -21,7 +22,7 @@ class VectorStoreRetriever:
                 query_vector=vector,
                 with_payload=True,
                 with_vectors=False,
-                limit=10,
+                limit=50,
             )
         except UnexpectedResponse:
             return []
@@ -68,14 +69,13 @@ class VectorStoreRetriever:
             collection.get("query"),
             collection.get("embeddings"),
         )
-        print(retrieved_chunks)
         relevant_contexts = [
             {
                 "chunk": ContextChunk(
                     text=chunk.payload.get("text"),
                     metadata=chunk.payload.get("metadata"),
                     query=collection.get("query"),
-                    score=chunk.score
+                    score=chunk.score,
                 )
             }
             for chunk in retrieved_chunks
