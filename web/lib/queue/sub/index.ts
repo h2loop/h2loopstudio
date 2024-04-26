@@ -6,9 +6,11 @@ import {
   handleDocStatus,
 } from '@/lib/queue/sub/handlers'
 import Redis from 'ioredis'
+import { handleDeviceTreeResponse } from './handlers/devicetree'
 import {
   ASSET_INGESTION_STATUS,
   DATASHEET_RESPONSE,
+  DEVICETREE_RESPONSE,
   DOC_STATUS,
   QUERY_RESPONSE,
 } from './topics'
@@ -54,9 +56,17 @@ export const startConsuming = () => {
     [DATASHEET_RESPONSE]: handleDatasheetCode,
   }
 
+  const deviceTreeTopicsHandlers = {
+    [DEVICETREE_RESPONSE]: handleDeviceTreeResponse,
+  }
+
   processMessageFromQueue(config.ingestionResultQueue, ingestionTopicsHandlers)
   processMessageFromQueue(config.queryResultQueue, queryTopicsHandlers)
   processMessageFromQueue(config.datasheetResultQueue, datasheetTopicsHandlers)
+  processMessageFromQueue(
+    config.deviceTreeResultQueue,
+    deviceTreeTopicsHandlers
+  )
 }
 
 startConsuming()

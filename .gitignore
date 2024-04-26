@@ -3,7 +3,7 @@
 
 ray_storage/
 server/config.yaml
-
+experiment/
 # dependencies
 /node_modules
 /.pnp

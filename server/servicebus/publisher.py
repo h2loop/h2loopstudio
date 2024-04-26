@@ -1,10 +1,11 @@
-from core.schema import CodeResponse, QueryResponse, CustomDoc
+from core.schema import CodeResponse, QueryResponse, CustomDoc, DeviceTreeResponse
 from .utils import publish_message
 from typing import List
 from config import appconfig
 from .topics import (
     ASSET_DOCS,
     ASSET_INGESTION_STATUS,
+    DEVICETREE_RESPONSE,
     DOC_STATUS,
     QUERY_RESPONSE,
     DATASHEET_RESPONSE,
@@ -67,6 +68,14 @@ def emit_datasheet_response(code: CodeResponse):
         appconfig.get("DATASHEET_RESULT_QUEUE"),
         DATASHEET_RESPONSE,
         data=code.model_dump(),
+    )
+
+
+def emit_devicetree_response(res: DeviceTreeResponse):
+    publish_message(
+        appconfig.get("DEVICETREE_RESULT_QUEUE"),
+        DEVICETREE_RESPONSE,
+        data=res.model_dump(),
     )
 
 

@@ -26,6 +26,8 @@ class Config:
             "QUERY_RESULT_QUEUE",
             "INGESTION_RESULT_QUEUE",
             "DATASHEET_RESULT_QUEUE",
+            "DEVICETREE_TASK_QUEUE",
+            "DEVICETREE_RESULT_QUEUE",
             "USE_OPENAI_EMBEDDING",
             "USE_RERANKER",
         ]

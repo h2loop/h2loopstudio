@@ -7,6 +7,7 @@ from servicebus.publisher import emit_query_response
 from config import appconfig
 
 import os
+
 local_model_base_url = os.getenv("LANGUAGE_MODEL_URL")
 
 
@@ -25,7 +26,6 @@ def trigger_workflow(payload):
     #     contexts_dataset = contexts_dataset.map_batches(
     #         Reranker, num_cpus=1, batch_size=50, concurrency=(cpu - 1, cpu)
     #     )
-    print("######################\n", contexts_dataset)
     ranked_chunks = []
     for row in contexts_dataset:
         ranked_chunk = row.get("chunk")
@@ -52,20 +52,20 @@ def trigger_workflow(payload):
         "Answer: "
     )
 
-    if os.getenv("USE_OPENAI_MODEL")=="1":
+    if os.getenv("USE_OPENAI_MODEL") == "1":
         client = OpenAI(api_key=appconfig.get("OPENAI_API_KEY"))
         response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": prompt}],
-        stream=True,
-    )
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user", "content": prompt}],
+            stream=True,
+        )
     else:
-        client = OpenAI( base_url=local_model_base_url,api_key='ollama')
+        client = OpenAI(base_url=local_model_base_url, api_key="ollama")
         response = client.chat.completions.create(
-        model=os.getenv("LOCAL_MODEL_NAME"),
-        messages=[{"role": "user", "content": prompt}],
-        stream=True,
-    )
+            model=os.getenv("LOCAL_MODEL_NAME"),
+            messages=[{"role": "user", "content": prompt}],
+            stream=True,
+        )
     # Handle streaming response
     result = ""
     for chunk in response:

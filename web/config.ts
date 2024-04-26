@@ -22,6 +22,8 @@ type configType = {
   ingestionResultQueue: string
   queryResultQueue: string
   datasheetResultQueue: string
+  deviceTreeTaskQueue: string
+  deviceTreeResultQueue: string
   serviceApiKey: string
   s3Endpoint: string
   s3AccessKey: string
@@ -39,6 +41,8 @@ export const config: configType = {
   ingestionResultQueue: getEnv('INGESTION_RESULT_QUEUE'),
   queryResultQueue: getEnv('QUERY_RESULT_QUEUE'),
   datasheetResultQueue: getEnv('DATASHEET_RESULT_QUEUE'),
+  deviceTreeTaskQueue: getEnv('DEVICETREE_TASK_QUEUE'),
+  deviceTreeResultQueue: getEnv('DEVICETREE_RESULT_QUEUE'),
   serviceApiKey: getEnv('SERVICE_API_KEY'),
   s3Endpoint: getEnv('S3_ENDPOINT'),
   s3AccessKey: getEnv('S3_ACCESS_KEY'),

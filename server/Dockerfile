@@ -14,6 +14,10 @@ ADD requirements.txt /app/requirements.txt
 RUN pip install -r requirements.txt
 RUN pip install langchain-community
 RUN pip install tiktoken
+RUN pip install pdf2image
+
+RUN apt-get update
+RUN apt-get install -y poppler-utils
 # Copy the contents of the current directory (where Dockerfile is located) into the container at /app
 ADD . /app
 

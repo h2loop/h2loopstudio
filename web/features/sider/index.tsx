@@ -2,6 +2,7 @@ import { getAssetsToReviewCountApi } from '@/apis/assets'
 import useStore from '@/store'
 import { Indicator, Text } from '@mantine/core'
 import {
+  IconBinaryTree,
   IconBulbFilled,
   IconChecklist,
   IconCode,
@@ -28,6 +29,7 @@ export default function Sider() {
     () => [
       { title: 'Ask', path: '/', icon: <IconBulbFilled /> },
       { title: 'Generate', path: '/generate', icon: <IconCode /> },
+      { title: 'DeviceTree', path: '/devicetree', icon: <IconBinaryTree /> },
       { title: 'Projects', path: '/projects', icon: <IconWhirl /> },
       {
         title: 'Review',
@@ -66,7 +68,10 @@ export default function Sider() {
           >
             <Link href={e.path} className={styles.navItemLink}>
               {e.icon}
-              <Text size="xs" className={styles.navItemTitle}>
+              <Text
+                style={{ fontSize: '0.57em' }}
+                className={styles.navItemTitle}
+              >
                 {e.title}
               </Text>
             </Link>

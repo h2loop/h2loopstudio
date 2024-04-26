@@ -4,6 +4,7 @@ import {
   ASSET_DELETION,
   ASSET_INGESTION,
   DATASHEET_REQUEST,
+  DEVICETREE_REQUEST,
   QUERY_REQUEST,
 } from './topics'
 
@@ -35,6 +36,12 @@ type IDataSheetPayload = {
   additional_instruction: string
 }
 
+type IDeviceTreePayload = {
+  request_id: string
+  pdf: string
+  user: string
+}
+
 export const enqueueIngestionJob = async (payload: IAssetIngestionPayload) => {
   await addMessageToQueue(config.ingestionTaskQueue, ASSET_INGESTION, payload)
 }
@@ -53,4 +60,14 @@ export const enqueueDatasheetCodeGenerationJob = async (
   payload: IDataSheetPayload
 ) => {
   await addMessageToQueue(config.datasheetTaskQueue, DATASHEET_REQUEST, payload)
+}
+
+export const enqueueDeviceTreeGenerationJob = async (
+  payload: IDeviceTreePayload
+) => {
+  await addMessageToQueue(
+    config.deviceTreeTaskQueue,
+    DEVICETREE_REQUEST,
+    payload
+  )
 }

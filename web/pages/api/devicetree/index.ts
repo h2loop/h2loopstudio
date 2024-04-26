@@ -1,11 +1,10 @@
 import fs from 'fs/promises'
 import { getUserInfoFromSessionToken } from '@/lib/middlewares/auth'
-import { enqueueDatasheetCodeGenerationJob } from '@/lib/queue/pub/events'
+import { enqueueDeviceTreeGenerationJob } from '@/lib/queue/pub/events'
 import type { ApiRes } from '@/types/api'
 import { createId } from '@paralleldrive/cuid2'
 import formidable from 'formidable'
 import { NextApiRequest, NextApiResponse } from 'next'
-import pdfParse from 'pdf-parse'
 
 export const config = {
   api: {
@@ -14,7 +13,7 @@ export const config = {
 }
 
 type FileUploadResponse = {
-  datasheetId: string
+  requestId: string
 }
 
 const getFilesFromFormData = (files: formidable.Files<string>) => {
@@ -38,9 +37,6 @@ export default async (
 
     const form = formidable({})
     const parsedForm = await form.parse(req)
-    const additionalInstruction = parsedForm[0]?.additionalInstruction
-      ? parsedForm[0]?.additionalInstruction[0]
-      : ''
 
     const files = getFilesFromFormData(parsedForm[1])
     if (!files || Object.values(files).length <= 0) {
@@ -58,20 +54,18 @@ export default async (
     }
 
     const dataBuffer = await fs.readFile(pdfFile.filepath)
-    const text = await pdfParse(dataBuffer)
-    const pdfText = text.text
+    const pdfBase64 = dataBuffer.toString('base64')
 
-    enqueueDatasheetCodeGenerationJob({
-      datasheet_id: uniqueId,
-      datasheet_content: pdfText,
-      additional_instruction: additionalInstruction,
+    enqueueDeviceTreeGenerationJob({
+      request_id: uniqueId,
+      pdf: pdfBase64,
       user: user?.email || '',
     })
 
     return res.status(201).send({
       success: true,
       data: {
-        datasheetId: uniqueId,
+        requestId: uniqueId,
       },
     })
   }

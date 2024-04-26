@@ -9,6 +9,7 @@ import {
   ASSET_STATUS_EVENT,
   CHAT_QUERY_REPLY_EVENT,
   DATASHEET_REPLY_EVENT,
+  DEVICETREE_REPLY_EVENT,
   SOCKET_CONNECTION_MESSAGE,
 } from '@/lib/socket/events'
 import useStore from '@/store'
@@ -26,6 +27,7 @@ const SocketConnector = () => {
   const deleteAsset = useStore((state) => state.deleteAsset)
   const addMessage = useStore((state) => state.addMessage)
   const setDatasheetFiles = useStore((state) => state.setDatasheetFiles)
+  const setDevicetreeResponse = useStore((state) => state.setDevicetreeResponse)
   // const activeChat = useStore((state) => state.activeChat)
 
   const connectSocket = async (session: Session) => {
@@ -52,8 +54,11 @@ const SocketConnector = () => {
       setDatasheetFiles(files)
     })
 
+    newSocket.on(DEVICETREE_REPLY_EVENT, ({ response }) => {
+      setDevicetreeResponse(response)
+    })
+
     newSocket.on(ASSET_STATUS_EVENT, ({ assetId, status }) => {
-      console.log({ ASSET_STATUS_EVENT, status })
       if (status) {
         if (status === ASSET_INGESTION_SUCCESS) {
           showNotification({

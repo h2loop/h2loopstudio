@@ -54,6 +54,12 @@ class DatasheetPayload(BaseModel):
     user: str
 
 
+class HardwareSchematicsPayload(BaseModel):
+    request_id: str
+    pdf: str
+    user: str
+
+
 class CodeFile(BaseModel):
     fileName: str
     code: str
@@ -64,3 +70,9 @@ class CodeResponse(BaseModel):
     datasheet_id: str
     user: str
     files: List[CodeFile]
+
+
+class DeviceTreeResponse(BaseModel):
+    request_id: str
+    user: str
+    response: str
