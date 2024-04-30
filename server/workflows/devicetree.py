@@ -31,7 +31,9 @@ def trigger_workflow(payload):
             "text": "You are an embedded engineer for a company and you understand the device schematics and generate device tree code from it. Given the hardware schematics images and generate device tree code for the hardware.",
         },
     ]
-    base_64_images = pdf_to_base64(payload.pdf)
+    base_64_images = []
+    for pdf in payload.pdfs:
+        base_64_images.extend(pdf_to_base64(pdf))
     images = [
         {
             "type": "image_url",

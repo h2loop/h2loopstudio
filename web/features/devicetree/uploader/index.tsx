@@ -15,7 +15,7 @@ const DatasheetUploader = ({
     <Card style={{ cursor: 'pointer' }}>
       <Dropzone
         loading={loading}
-        maxFiles={1}
+        maxFiles={10}
         onDrop={(files) => handleDrop(files)}
         maxSize={5 * 1024 ** 2}
         accept={PDF_MIME_TYPE}

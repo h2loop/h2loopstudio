@@ -1,6 +1,7 @@
 import { uploadDatasheetApi } from '@/apis/generate'
 import useStore from '@/store'
-import { Button, Card, Grid, Textarea, Title } from '@mantine/core'
+import { Carousel } from '@mantine/carousel'
+import { Button, Card, Grid, Text, Textarea, Title } from '@mantine/core'
 import { FileWithPath } from '@mantine/dropzone'
 import { showNotification } from '@mantine/notifications'
 import { useCallback, useState } from 'react'
@@ -8,6 +9,7 @@ import CodeBlock from './codeblock'
 import styles from './generate.module.scss'
 import PdfViewer from './pdfviewer'
 import DatasheetUploader from './uploader'
+import '@mantine/carousel/styles.css'
 
 const CodeGenerationScreen = () => {
   const setDatasheetId = useStore((state) => state.setDatasheetId)
@@ -80,7 +82,14 @@ const CodeGenerationScreen = () => {
         </Grid.Col>
         <Grid.Col span={6}>
           {files.length > 0 ? (
-            <PdfViewer pdfData={files[0]} />
+            <Carousel withIndicators>
+              {files.map((file) => (
+                <Carousel.Slide>
+                  <Text size="sm">{file.name}</Text>
+                  <PdfViewer pdfData={file} />
+                </Carousel.Slide>
+              ))}
+            </Carousel>
           ) : (
             <Card style={{ height: '100%', textAlign: 'center' }}>
               <Title order={5}>Upload datasheet to preview</Title>

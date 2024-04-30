@@ -27,6 +27,13 @@ const getFilesFromFormData = (files: formidable.Files<string>) => {
   return extractedFiles
 }
 
+const getTextFromPdf = async (pdfFile: formidable.File) => {
+  const dataBuffer = await fs.readFile(pdfFile.filepath)
+  const text = await pdfParse(dataBuffer)
+  const pdfText = text.text
+  return pdfText
+}
+
 export default async (
   req: NextApiRequest,
   res: NextApiResponse<ApiRes<FileUploadResponse>>
@@ -50,16 +57,14 @@ export default async (
       })
     }
 
-    const pdfFile = files[0]
-    if (!pdfFile) {
+    if (!files || files.length === 0) {
       return res
         .status(400)
         .json({ success: false, error: 'No PDF file provided' })
     }
 
-    const dataBuffer = await fs.readFile(pdfFile.filepath)
-    const text = await pdfParse(dataBuffer)
-    const pdfText = text.text
+    const texts = await Promise.all(files.map((file) => getTextFromPdf(file)))
+    const pdfText = texts.join('\n\n')
 
     enqueueDatasheetCodeGenerationJob({
       datasheet_id: uniqueId,

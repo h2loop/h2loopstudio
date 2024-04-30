@@ -8,7 +8,7 @@ const PdfViewer = ({ pdfData }: { pdfData: any }) => {
   const [pages, setPages] = useState(0)
   return (
     <div
-      style={{ height: '75vh', width: '100%', overflow: 'auto', scale: 0.7 }}
+      style={{ height: '70vh', width: '100%', overflow: 'auto', scale: 0.7 }}
     >
       <Document
         file={pdfData}

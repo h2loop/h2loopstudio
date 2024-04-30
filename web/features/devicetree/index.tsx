@@ -1,6 +1,7 @@
 import { uploadHardwareSchematicsApi } from '@/apis/devicetree'
 import useStore from '@/store'
-import { Button, Grid, Title } from '@mantine/core'
+import { Carousel } from '@mantine/carousel'
+import { Button, Grid, Text, Title } from '@mantine/core'
 import { FileWithPath } from '@mantine/dropzone'
 import { showNotification } from '@mantine/notifications'
 import { useCallback, useState } from 'react'
@@ -8,6 +9,7 @@ import CodeBlock from './codeblock'
 import styles from './generate.module.scss'
 import PdfViewer from './pdfviewer'
 import DatasheetUploader from './uploader'
+import '@mantine/carousel/styles.css'
 
 const DeviceTreeGeneration = () => {
   const setDevicetreeResponse = useStore((state) => state.setDevicetreeResponse)
@@ -54,7 +56,14 @@ const DeviceTreeGeneration = () => {
         <Grid.Col span={6}>
           {files.length > 0 ? (
             <div className={styles.uploadAndPrompt}>
-              <PdfViewer pdfData={files[0]} />
+              <Carousel withIndicators>
+                {files.map((file) => (
+                  <Carousel.Slide>
+                    <Text size="sm">{file.name}</Text>
+                    <PdfViewer pdfData={file} />
+                  </Carousel.Slide>
+                ))}
+              </Carousel>
               <Button
                 disabled={!files || files.length == 0}
                 onClick={handleStart}

@@ -38,7 +38,7 @@ type IDataSheetPayload = {
 
 type IDeviceTreePayload = {
   request_id: string
-  pdf: string
+  pdfs: string[]
   user: string
 }
 

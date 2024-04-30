@@ -46,19 +46,20 @@ export default async (
       })
     }
 
-    const pdfFile = files[0]
-    if (!pdfFile) {
+    if (!files || files.length === 0) {
       return res
         .status(400)
         .json({ success: false, error: 'No PDF file provided' })
     }
 
-    const dataBuffer = await fs.readFile(pdfFile.filepath)
-    const pdfBase64 = dataBuffer.toString('base64')
+    const dataBuffers = await Promise.all(
+      files.map((file) => fs.readFile(file.filepath))
+    )
+    const pdfBase64 = dataBuffers.map((e) => e.toString('base64'))
 
     enqueueDeviceTreeGenerationJob({
       request_id: uniqueId,
-      pdf: pdfBase64,
+      pdfs: pdfBase64,
       user: user?.email || '',
     })
 

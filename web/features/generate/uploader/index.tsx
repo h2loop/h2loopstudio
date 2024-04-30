@@ -15,7 +15,7 @@ const DatasheetUploader = ({
     <Card style={{ cursor: 'pointer' }}>
       <Dropzone
         loading={loading}
-        maxFiles={1}
+        maxFiles={10}
         onDrop={(files) => handleDrop(files)}
         maxSize={5 * 1024 ** 2}
         accept={PDF_MIME_TYPE}
@@ -74,8 +74,10 @@ const DatasheetUploader = ({
             </div>
           ) : (
             <div>
-              <Text size={'xl'} inline>
-                {files?.length > 0 ? files[0].name : 'No files selected'}
+              <Text size={'xs'} inline>
+                {files?.length > 0
+                  ? files.map((e) => e.name).join(' \n')
+                  : 'No files selected'}
               </Text>
             </div>
           )}
