@@ -71,6 +71,7 @@ export const getPaginatedAssetsInProject = async (
         status: true,
         assetTypeId: true,
         assetType: true,
+        readerKwargs: true,
       },
       skip: start,
       take: end,
