@@ -35,7 +35,7 @@ const CodeGenerationScreen = () => {
       setDatasheetFiles([])
       try {
         const data = await uploadDatasheetApi(files, instruction)
-        setDatasheetId(data.datasheetId)
+        setDatasheetId(data.requestId)
       } catch {
         showNotification({
           message: 'Some error occurred during upload.',

@@ -56,7 +56,7 @@ class DatasheetPayload(BaseModel):
 
 class HardwareSchematicsPayload(BaseModel):
     request_id: str
-    pdfs: List[str]
+    pdfs: str
     user: str
 
 

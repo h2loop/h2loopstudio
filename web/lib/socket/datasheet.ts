@@ -12,7 +12,6 @@ export const sendDatasheetResponse = async (
   userId: string,
   payload: IDatasheetQueryReply
 ) => {
-  console.log({ payload })
   emitSocketEventToUser<IDatasheetQueryReply>(
     io,
     userId,

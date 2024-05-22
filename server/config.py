@@ -31,9 +31,7 @@ class Config:
             "USE_OPENAI_EMBEDDING",
             "USE_RERANKER",
         ]
-        optional_vars = [
-            "OPENAI_API_KEY",
-        ]
+        optional_vars = ["OPENAI_API_KEY", "OPENAI_MODEL"]
 
         for var in required_vars:
             value = os.getenv(var)
