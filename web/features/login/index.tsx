@@ -7,7 +7,7 @@ export default function LoginScreen() {
   return (
     <div className={styles.loginScreen}>
       <Card className={styles.loginCard}>
-        <div className={styles.loginText}>Login to Herald</div>
+        <div className={styles.loginText}>Login to H2LooP.ai</div>
         <Button
           onClick={() => signIn('google')}
           leftSection={<IconBrandGoogle />}

@@ -1,6 +1,5 @@
 # Node.js
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 ray_storage/
 server/config.yaml
 experiment/
@@ -136,10 +135,10 @@ ipython_config.py
 /.venv
 /Pipfile.lock
 /__pypackages__/
-
+info.txt
 # dotenv
 # .env
-
+finetune/
 # Spyder project settings
 .spyderproject
 .spyproject

@@ -12,6 +12,18 @@ import concurrent.futures
 import re
 
 
+def remove_c_comments(code: str) -> str:
+    single_line_comment_pattern = r"//.*?$"
+
+    multi_line_comment_pattern = r"/\*.*?\*/"
+
+    combined_pattern = f"({single_line_comment_pattern})|({multi_line_comment_pattern})"
+
+    cleaned_code = re.sub(combined_pattern, "", code, flags=re.DOTALL | re.MULTILINE)
+
+    return cleaned_code
+
+
 def extract_code_from_string(input_string):
     # Regular expressions to find complete code blocks
     code_block_pattern = re.compile(r"```(?:c)?(.*?)```", re.DOTALL)
@@ -272,12 +284,25 @@ def trigger_code_generation_workflow(payload):
 ```
 """
 
+    prompt = f"""Generate driver file for chip with below details.
+
+**Device Info:**
+{device_information}
+"""
+
     print(prompt)
     client = OpenAI(api_key=appconfig.get("OPENAI_API_KEY"))
     response = client.chat.completions.create(
-        model=appconfig.get("OPENAI_MODEL"),
-        messages=[{"role": "user", "content": prompt}],
+        model="ft:gpt-3.5-turbo-0125:h2loop:exp-3:9UHd8cqV",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a embedded engineer. You can return more than 2000 tokens. Remove comments from the code you are generating.",
+            },
+            {"role": "user", "content": prompt},
+        ],
         stream=True,
+        max_tokens=4096,
     )
 
     result = ""
@@ -285,8 +310,9 @@ def trigger_code_generation_workflow(payload):
         text = chunk.choices[0].delta.content or ""
         result += text
     comp_code = extract_code_from_string(result)
-    comp_code = complete_code(result, device_information)
-    comp_code = extract_code_from_string(comp_code)
+    # comp_code = complete_code(result, device_information)
+    # comp_code = extract_code_from_string(comp_code)
+    comp_code = remove_c_comments(comp_code)
     final_result = {}
     final_result["user"] = payload.user
     final_result["datasheet_id"] = payload.datasheet_id

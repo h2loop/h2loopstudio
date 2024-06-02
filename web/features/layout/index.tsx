@@ -11,8 +11,8 @@ import Sider from '../sider'
 import styles from './layout.module.scss'
 
 export const metadata: Metadata = {
-  title: 'Herald',
-  description: 'Knowledge management system',
+  title: 'H2LooP.ai',
+  description: 'Embedded Programming Assistant',
 }
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {

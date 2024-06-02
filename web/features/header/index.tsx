@@ -1,6 +1,7 @@
 import { ActionIcon, Avatar, Indicator, Menu, Title } from '@mantine/core'
 import { IconBell, IconLogout } from '@tabler/icons-react'
 import { signOut, useSession } from 'next-auth/react'
+import Image from 'next/image'
 import styles from './header.module.scss'
 
 export default function Header() {
@@ -8,8 +9,9 @@ export default function Header() {
 
   return (
     <div className={styles.headerContainer}>
-      <div>
-        <Title order={3}>HERALD</Title>
+      <div className={styles.logo}>
+        <Image alt="logo" src="/images/logo.png" width={35} height={35} />
+        <Title order={3}>H2LooP.ai</Title>
       </div>
       {status == 'authenticated' && (
         <div className={styles.rightContainer}>
