@@ -1,4 +1,4 @@
-import { Card, Group, rem, Text } from '@mantine/core'
+import { Card, rem, Stack, Text } from '@mantine/core'
 import { Dropzone, FileWithPath, PDF_MIME_TYPE } from '@mantine/dropzone'
 import { IconFileTypePdf, IconUpload, IconX } from '@tabler/icons-react'
 
@@ -12,7 +12,7 @@ const DatasheetUploader = ({
   files: FileWithPath[]
 }) => {
   return (
-    <Card style={{ cursor: 'pointer' }}>
+    <Card style={{ cursor: 'pointer', height: '100%' }}>
       <Dropzone
         loading={loading}
         maxFiles={10}
@@ -20,9 +20,10 @@ const DatasheetUploader = ({
         maxSize={5 * 1024 ** 2}
         accept={PDF_MIME_TYPE}
       >
-        <Group
+        <Stack
+          align="center"
           justify="center"
-          gap="md"
+          gap="lg"
           mih={180}
           style={{ pointerEvents: 'none' }}
         >
@@ -65,10 +66,10 @@ const DatasheetUploader = ({
                 alignItems: 'center',
               }}
             >
-              <Text size="md" inline>
+              <Text size="xl" inline>
                 Upload Hardware Schematics
               </Text>
-              <Text size="xs" c="dimmed" inline mt={7}>
+              <Text size="xs" c="dimmed" inline mt={14}>
                 .pdf files are supported now
               </Text>
             </div>
@@ -79,7 +80,7 @@ const DatasheetUploader = ({
               </Text>
             </div>
           )}
-        </Group>
+        </Stack>
       </Dropzone>
     </Card>
   )
