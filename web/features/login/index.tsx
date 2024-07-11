@@ -22,7 +22,7 @@ export default function LoginScreen() {
         >
           Sign in with GitHub
         </Button>
-      </Card>
-    </div>
+      </Card >
+    </div >
   )
 }
