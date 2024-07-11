@@ -1,0 +1,13 @@
+.container {
+  height: 100%;
+
+  .title {
+    padding-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  .codeBlock {
+    max-height: 70vh;
+    overflow: auto;
+  }
+}

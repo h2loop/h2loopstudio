@@ -1,0 +1,39 @@
+# General Dependencies
+requests
+python-dotenv
+
+# Logging and Utilities
+loguru
+
+# Task Queue and Message Broker
+celery
+celery[redis]
+redis
+psycopg2-binary
+
+# RAG
+openai
+llama-hub==0.0.45
+llama-index==0.8.66
+qdrant_client
+nltk
+minio==7.1.17
+ray
+ray[data]
+# sentence-transformers
+
+# Reader Handling
+pandas==2.1.2
+pypdf
+pyarrow
+Jinja2
+Pillow
+wikipedia
+nbconvert
+
+# Data Validation
+pydantic
+
+# Http Server
+fastapi
+uvicorn

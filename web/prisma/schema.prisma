@@ -1,0 +1,213 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model VerificationToken {
+  identifier String
+  expires    DateTime
+  token      String
+
+  @@id([identifier, token])
+  @@map("verification_token")
+}
+
+model Account {
+  id                Int     @id @default(autoincrement())
+  userId            Int
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        BigInt?
+  id_token          String?
+  scope             String?
+  session_state     String?
+  token_type        String?
+
+  @@unique([userId, provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  expires      DateTime
+  sessionToken String
+
+  @@unique([userId, sessionToken])
+  @@map("sessions")
+}
+
+model User {
+  id                  Int                   @id @default(autoincrement())
+  name                String?
+  email               String?
+  emailVerified       DateTime?
+  image               String?
+  ownedAssets         Asset[]
+  chats               Chat[]
+  assets              AssetMemberRole[]
+  adminProjects       ProjectAdmin[]
+  assetReviewComments AssetReviewComments[]
+
+  @@map("users")
+}
+
+model Project {
+  id          String         @id @default(cuid())
+  name        String
+  description String?
+  tags        String?
+  isActive    Boolean        @default(true)
+  createdBy   String
+  createdAt   DateTime       @default(now())
+  updatedBy   DateTime?
+  updatedAt   String?
+  assets      Asset[]
+  chats       Chat[]
+  admins      ProjectAdmin[]
+
+  @@map("projects")
+}
+
+model ProjectAdmin {
+  id        String  @id @default(cuid())
+  userId    Int
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id])
+  user      User    @relation(fields: [userId], references: [id])
+
+  @@unique([projectId, userId], name: "projectAdminIndex")
+  @@map("project_admins")
+}
+
+model AssetMemberRole {
+  id      String @id @default(cuid())
+  assetId String
+  userId  Int
+  role    String
+  asset   Asset? @relation(fields: [assetId], references: [id])
+  member  User   @relation(fields: [userId], references: [id])
+
+  @@unique([assetId, userId], name: "assetMemberIndex")
+  @@map("user_roles")
+}
+
+model AssetType {
+  id       String  @id @default(cuid())
+  key      String  @unique
+  name     String
+  isActive Boolean @default(true)
+  assets   Asset[]
+
+  @@map("asset_types")
+}
+
+model Asset {
+  id             String                @id @default(cuid())
+  name           String
+  description    String?
+  assetTypeId    String
+  tags           String?
+  projectId      String
+  readerKwargs   String?
+  extraMetadata  Json?
+  status         String
+  ownerUserId    Int
+  isActive       Boolean               @default(true)
+  createdBy      String
+  createdAt      DateTime              @default(now())
+  assetType      AssetType             @relation(fields: [assetTypeId], references: [id])
+  owner          User                  @relation(fields: [ownerUserId], references: [id])
+  project        Project?              @relation(fields: [projectId], references: [id])
+  members        AssetMemberRole[]
+  docs           Doc[]
+  logs           AssetLog[]
+  reviewComments AssetReviewComments[]
+
+  @@map("assets")
+}
+
+model AssetLog {
+  id        String   @id @default(cuid())
+  timestamp DateTime @default(now())
+  content   String
+  type      String   @default("INFO")
+  assetId   String
+  asset     Asset    @relation(fields: [assetId], references: [id])
+
+  @@map("asset_logs")
+}
+
+model AssetReviewComments {
+  id        String   @id @default(cuid())
+  timestamp DateTime @default(now())
+  comment   String
+  userId    Int
+  assetId   String
+  asset     Asset    @relation(fields: [assetId], references: [id])
+  reviewer  User     @relation(fields: [userId], references: [id])
+
+  @@map("asset_review_comments")
+}
+
+model Doc {
+  id        String      @id @default(cuid())
+  doc_id    String
+  name      String
+  assetId   String
+  metadata  String?
+  asset     Asset       @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  statusLog DocStatus[]
+
+  @@unique([doc_id])
+  @@map("docs")
+}
+
+model DocStatus {
+  id        String   @id @default(cuid())
+  doc_id    String
+  error     Boolean  @default(false)
+  status    String
+  timestamp DateTime @default(now())
+  message   String?
+  doc       Doc      @relation(fields: [doc_id], references: [doc_id], onDelete: Cascade)
+
+  @@map("doc_status")
+}
+
+model Chat {
+  id            String    @id @default(cuid())
+  title         String?
+  userId        Int
+  projectId     String?
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  lastMessageAt DateTime  @default(now())
+  project       Project?  @relation(fields: [projectId], references: [id])
+  user          User      @relation(fields: [userId], references: [id])
+  messages      Message[]
+
+  @@map("chats")
+}
+
+model Message {
+  id         String   @id @default(cuid())
+  content    String
+  sources    Json?
+  isResponse Boolean
+  timestamp  DateTime @default(now())
+  chatId     String
+  chat       Chat     @relation(fields: [chatId], references: [id])
+
+  @@map("messages")
+}

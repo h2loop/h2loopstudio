@@ -1,0 +1,35 @@
+@use '../../global.scss' as *;
+
+.headerContainer {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+
+  .logo {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .leftContainer {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    width: 70%;
+  }
+
+  .rightContainer {
+    width: 30%;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    justify-content: flex-end;
+
+    * {
+      cursor: pointer;
+    }
+  }
+}

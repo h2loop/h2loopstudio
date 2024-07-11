@@ -1,0 +1,53 @@
+@use '../../global.scss' as *;
+
+.siderContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .menuContainer {
+    height: 92%;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5em;
+
+    .navItem {
+      cursor: pointer;
+      display: flex;
+      width: 90%;
+      justify-content: center;
+      transition: color 1s;
+      padding: 10%;
+
+      .navItemLink {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.3rem;
+      }
+    }
+
+    .activeNavItem {
+      font-weight: bold;
+      color: var(--mantine-color-teal-8);
+      border-right: 4px solid var(--mantine-color-teal-8);
+    }
+
+    .navItem:hover {
+      opacity: 0.9;
+    }
+  }
+
+  .footer {
+    height: 8%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 0.5rem;
+    gap: 0.5rem;
+  }
+}

@@ -1,0 +1,15 @@
+.container {
+  padding: 2em;
+
+  .title {
+    padding-bottom: 2em;
+    text-align: center;
+  }
+
+  .uploadAndPrompt {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1em;
+  }
+}

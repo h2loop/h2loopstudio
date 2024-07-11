@@ -1,0 +1,16 @@
+@use '../../global.scss' as *;
+
+.breadcrumbContainer {
+  .breadcrumbItem {
+    border-radius: 1rem;
+    padding: 0.1rem 0.5rem;
+    color: var(--mantine-color-teal-8);
+    font-weight: bold;
+  }
+}
+
+.welcome {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}

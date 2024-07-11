@@ -1,0 +1,29 @@
+@use '../../../global.scss' as *;
+
+.adminContainer {
+  margin-top: 1rem;
+  width: 100%;
+
+  .memberTitle {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .adminTable {
+    height: 75vh;
+
+    * {
+      font-size: 0.6rem !important;
+    }
+  }
+
+  .search {
+    width: 82%;
+  }
+
+  .headerRow {
+    font-weight: bold;
+    background-color: var(--mantine-color-dark-4);
+  }
+}
