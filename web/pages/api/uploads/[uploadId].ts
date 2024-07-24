@@ -23,12 +23,7 @@ export default async function handler(
           id: uploadId,
         },
         select: {
-          knowledgeGroupId: true,
-          KnowledgeGroup: {
-            select: {
               projectId: true,
-            },
-          },
         },
       })
 
@@ -39,7 +34,7 @@ export default async function handler(
         })
       }
 
-      const objectName = `${fileInfo.KnowledgeGroup.projectId}/${fileInfo.knowledgeGroupId}/${uploadId}`
+      const objectName = `${fileInfo.projectId}/${uploadId}`
 
       // Check if the object exists
       const exists = await minioClient
