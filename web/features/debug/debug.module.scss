@@ -1,0 +1,27 @@
+.container {
+  padding: 0.5rem 2em;
+
+  .title {
+    padding-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .uploadAndPrompt {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1em;
+    height: 100%;
+  }
+
+  .btnGrp {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    button {
+      width: 100%;
+    }
+  }
+}

@@ -23,6 +23,7 @@ class Embedder:
 
         nltk.download("stopwords")
         self.stop_words = stopwords.words("english")
+        print("apoeke: " + appconfig.get("OPENAI_API_KEY"))
 
         if appconfig.get("USE_OPENAI_EMBEDDING") == "1":
             self.model = OpenAI(api_key=appconfig.get("OPENAI_API_KEY"))

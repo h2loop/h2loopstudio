@@ -29,6 +29,7 @@ ENV_VARS=(
 # Loop through the array and unset each environment variable
 for VAR in "${ENV_VARS[@]}"; do
     unset $VAR
+    echo "unset ${VAR}"
 done
 
 echo "Environment variables have been unset."

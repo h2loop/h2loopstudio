@@ -1,17 +1,18 @@
-import { Card, Center, Text } from '@mantine/core'
-import { IconMoodEmpty } from '@tabler/icons-react'
-import { FC } from 'react'
+import { Card, Center, Text } from '@mantine/core';
+import { IconMoodEmpty } from '@tabler/icons-react';
+import { FC } from 'react';
 
 type Props = { message: string; submessage: string; height?: string }
 const NoDataComponent: FC<Props> = ({ message, submessage, height }) => {
   return (
-    <Center>
+    <Center style={{ width: '100%' }}>
       <Card>
         <div
           style={{
             textAlign: 'center',
             padding: '2.2em 4em',
             height: height || 'auto',
+            width: '100%',
           }}
         >
           <IconMoodEmpty size={48} color="#868e96" />
