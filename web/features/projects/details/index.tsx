@@ -5,10 +5,10 @@ import useStore from '@/store'
 import { Tabs, Title } from '@mantine/core'
 import { showNotification } from '@mantine/notifications'
 import {
+  IconBoxMultiple,
   IconCube,
   IconSettings,
   IconUsersGroup,
-  IconWhirl,
 } from '@tabler/icons-react'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -44,7 +44,7 @@ const ProjectDetailsScreen = () => {
   ) : (
     <div className={styles.projectDetailsContainer}>
       <div className={styles.title}>
-        <IconWhirl size={23} />
+        <IconBoxMultiple size={23} />
         <Title order={4}>{project?.name}</Title>
       </div>
       <Tabs defaultValue="assets" className={styles.content}>

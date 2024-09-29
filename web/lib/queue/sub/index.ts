@@ -6,10 +6,12 @@ import {
   handleDocStatus,
 } from '@/lib/queue/sub/handlers'
 import Redis from 'ioredis'
+import { handleDebugResponse } from './handlers/debug'
 import { handleDeviceTreeResponse } from './handlers/devicetree'
 import {
   ASSET_INGESTION_STATUS,
   DATASHEET_RESPONSE,
+  DEBUG_RESPONSE,
   DEVICETREE_RESPONSE,
   DOC_STATUS,
   QUERY_RESPONSE,
@@ -60,6 +62,10 @@ export const startConsuming = () => {
     [DEVICETREE_RESPONSE]: handleDeviceTreeResponse,
   }
 
+  const debugTopicsHandlers = {
+    [DEBUG_RESPONSE]: handleDebugResponse,
+  }
+
   processMessageFromQueue(config.ingestionResultQueue, ingestionTopicsHandlers)
   processMessageFromQueue(config.queryResultQueue, queryTopicsHandlers)
   processMessageFromQueue(config.datasheetResultQueue, datasheetTopicsHandlers)
@@ -67,6 +73,7 @@ export const startConsuming = () => {
     config.deviceTreeResultQueue,
     deviceTreeTopicsHandlers
   )
+  processMessageFromQueue(config.debugResultQueue, debugTopicsHandlers)
 }
 
 startConsuming()

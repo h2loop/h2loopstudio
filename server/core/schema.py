@@ -76,3 +76,15 @@ class DeviceTreeResponse(BaseModel):
     request_id: str
     user: str
     response: str
+
+
+class DebugPayload(BaseModel):
+    request_id: str
+    log: str
+    user: str
+
+
+class DebugResponse(BaseModel):
+    request_id: str
+    user: str
+    response: str

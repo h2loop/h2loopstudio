@@ -28,6 +28,8 @@ class Config:
             "DATASHEET_RESULT_QUEUE",
             "DEVICETREE_TASK_QUEUE",
             "DEVICETREE_RESULT_QUEUE",
+            "DEBUG_TASK_QUEUE",
+            "DEBUG_RESULT_QUEUE",
             "USE_OPENAI_EMBEDDING",
             "USE_RERANKER",
         ]

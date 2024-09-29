@@ -1,10 +1,17 @@
-from core.schema import CodeResponse, QueryResponse, CustomDoc, DeviceTreeResponse
+from core.schema import (
+    CodeResponse,
+    DebugResponse,
+    QueryResponse,
+    CustomDoc,
+    DeviceTreeResponse,
+)
 from .utils import publish_message
 from typing import List
 from config import appconfig
 from .topics import (
     ASSET_DOCS,
     ASSET_INGESTION_STATUS,
+    DEBUG_RESPONSE,
     DEVICETREE_RESPONSE,
     DOC_STATUS,
     QUERY_RESPONSE,
@@ -90,4 +97,12 @@ def emit_query_response(query: QueryResponse):
             "sources": query.sources,
             "complete": query.complete,
         },
+    )
+
+
+def emit_debug_response(res: DebugResponse):
+    publish_message(
+        appconfig.get("DEBUG_RESULT_QUEUE"),
+        DEBUG_RESPONSE,
+        data=res.model_dump(),
     )

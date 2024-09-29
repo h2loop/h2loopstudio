@@ -2,12 +2,13 @@ import { getAssetsToReviewCountApi } from '@/apis/assets'
 import useStore from '@/store'
 import { Indicator, Text } from '@mantine/core'
 import {
-  IconBinaryTree,
+  IconBoxMultiple,
+  IconBug,
   IconBulbFilled,
   IconChecklist,
-  IconCode,
+  IconCodeCircle2,
+  IconPlant2,
   IconSettings,
-  IconWhirl,
 } from '@tabler/icons-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -28,9 +29,10 @@ export default function Sider() {
   const items = useMemo(
     () => [
       { title: 'Ask', path: '/', icon: <IconBulbFilled /> },
-      { title: 'Generate', path: '/generate', icon: <IconCode /> },
-      { title: 'DeviceTree', path: '/devicetree', icon: <IconBinaryTree /> },
-      { title: 'Projects', path: '/projects', icon: <IconWhirl /> },
+      { title: 'Generate', path: '/generate', icon: <IconCodeCircle2 /> },
+      { title: 'DeviceTree', path: '/devicetree', icon: <IconPlant2 /> },
+      { title: 'Debug', path: '/debug', icon: <IconBug /> },
+      { title: 'Projects', path: '/projects', icon: <IconBoxMultiple /> },
       {
         title: 'Review',
         path: '/review',
@@ -62,14 +64,13 @@ export default function Sider() {
       <div className={styles.menuContainer}>
         {items.map((e) => (
           <div
-            className={`${styles.navItem} ${
-              getParentPath(pathname) == e.path ? styles.activeNavItem : ''
-            }`}
+            className={`${styles.navItem} ${getParentPath(pathname) == e.path ? styles.activeNavItem : ''
+              }`}
           >
             <Link href={e.path} className={styles.navItemLink}>
               {e.icon}
               <Text
-                style={{ fontSize: '0.57em' }}
+                style={{ fontSize: '0.4em' }}
                 className={styles.navItemTitle}
               >
                 {e.title}

@@ -1,12 +1,13 @@
-import fs from 'fs/promises'
 import { getUserInfoFromSessionToken } from '@/lib/middlewares/auth'
 import {
   enqueueDatasheetCodeGenerationJob,
+  enqueueDebugJob,
   enqueueDeviceTreeGenerationJob,
 } from '@/lib/queue/pub/events'
 import type { ApiRes } from '@/types/api'
 import { createId } from '@paralleldrive/cuid2'
 import formidable from 'formidable'
+import fs from 'fs/promises'
 import { NextApiRequest, NextApiResponse } from 'next'
 import pdfParse from 'pdf-parse'
 
@@ -112,6 +113,39 @@ export const generateCodeFromDatasheet = async (
       datasheet_id: uniqueId,
       datasheet_content: pdfText,
       additional_instruction: additionalInstruction,
+      user: user?.email || '',
+    })
+
+    return res.status(201).send({
+      success: true,
+      data: {
+        requestId: uniqueId,
+      },
+    })
+  }
+}
+
+
+
+
+export const sendDebugJob = async (
+  req: NextApiRequest,
+  res: NextApiResponse<ApiRes<FileUploadResponse>>
+) => {
+  if (req.method === 'POST') {
+    const uniqueId = createId()
+    const sessionToken = req.headers.sessiontoken as string
+    const user = await getUserInfoFromSessionToken(sessionToken)
+    
+    const form = formidable({})
+    const parsedForm = await form.parse(req)
+    const log = parsedForm[0]?.log
+      ? parsedForm[0]?.log[0]
+      : ''
+
+    enqueueDebugJob({
+      request_id: uniqueId,
+      log: log,
       user: user?.email || '',
     })
 
