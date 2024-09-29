@@ -12,3 +12,6 @@ export const DATASHEET_REPLY_EVENT = 'DATASHEET_REPLY_EVENT'
 
 /********************* Devicetree ****************/
 export const DEVICETREE_REPLY_EVENT = 'DEVICETREE_REPLY_EVENT'
+
+/********************* Debug *********************/
+export const DEBUG_REPLY_EVENT = 'DEBUG_REPLY_EVENT'

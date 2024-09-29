@@ -1,4 +1,4 @@
-import { uploadHardwareSchematicsApi } from '@/apis/devicetree'
+import { uploadDebugLogApi } from '@/apis/debug'
 import useStore from '@/store'
 import '@mantine/carousel/styles.css'
 import { Button, Grid, Title } from '@mantine/core'
@@ -11,16 +11,22 @@ import LogViewer from './logviewer'
 import LogUploader from './uploader'
 
 
-const DeviceTreeGeneration = () => {
-  const setDevicetreeResponse = useStore((state) => state.setDevicetreeResponse)
-  const devicetreeResponse = useStore((state) => state.devicetreeResponse)
+const DebugLogComponent = () => {
+  const setDebugResponse = useStore((state) => state.setDebugResponse)
+  const debugResponse = useStore((state) => state.debugResponse)
   const [loading, setLoading] = useState<boolean>(false)
   const [codeLoading, setCodeLoading] = useState<boolean>(false)
   const [files, setFiles] = useState<FileWithPath[]>([])
+  const [text, setText] = useState<string>('');
 
   const handleDrop = useCallback(
     async (files: FileWithPath[]) => {
       setFiles(files)
+      const reader = new FileReader()
+      reader.onload = async (e) => {
+        setText(e.target?.result as string)
+      };
+      reader.readAsText(files[0])
     },
     [setFiles]
   )
@@ -29,10 +35,10 @@ const DeviceTreeGeneration = () => {
     if (files) {
       // set loading status
       setLoading(true)
-      setDevicetreeResponse('')
+      setDebugResponse('')
       setCodeLoading(true)
       try {
-        await uploadHardwareSchematicsApi(files)
+        await uploadDebugLogApi(text)
       } catch {
         showNotification({
           message: 'Some error occurred during upload.',
@@ -44,11 +50,11 @@ const DeviceTreeGeneration = () => {
     } else {
       showNotification({ message: 'Upload atleast one file', color: 'red' })
     }
-  }, [files])
+  }, [files, text, uploadDebugLogApi, setLoading, setDebugResponse])
 
   const handleReset = () => {
     setFiles([])
-    setDevicetreeResponse('')
+    setDebugResponse('')
     setCodeLoading(false)
     setLoading(false)
   }
@@ -62,7 +68,7 @@ const DeviceTreeGeneration = () => {
         <Grid.Col span={6}>
           <div className={styles.uploadAndPrompt}>
             {files.length > 0 ? (
-              <LogViewer file={files[0]} filename={files[0].name} />
+              <LogViewer text={text} filename={files[0].name} />
             ) : (
               <LogUploader
                 loading={loading}
@@ -87,11 +93,11 @@ const DeviceTreeGeneration = () => {
           </div>
         </Grid.Col>
         <Grid.Col span={6}>
-          <CodeBlock response={devicetreeResponse} loading={codeLoading} />
+          <CodeBlock response={debugResponse} loading={codeLoading} />
         </Grid.Col>
       </Grid>
     </div>
   )
 }
 
-export default DeviceTreeGeneration
+export default DebugLogComponent

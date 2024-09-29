@@ -4,6 +4,7 @@ import {
   ASSET_DELETION,
   ASSET_INGESTION,
   DATASHEET_REQUEST,
+  DEBUG_REQUEST,
   DEVICETREE_REQUEST,
   QUERY_REQUEST,
 } from './topics'
@@ -42,6 +43,13 @@ type IDeviceTreePayload = {
   user: string
 }
 
+
+type IDebugPayload = {
+  request_id: string
+  log: string
+  user: string
+}
+
 export const enqueueIngestionJob = async (payload: IAssetIngestionPayload) => {
   await addMessageToQueue(config.ingestionTaskQueue, ASSET_INGESTION, payload)
 }
@@ -68,6 +76,16 @@ export const enqueueDeviceTreeGenerationJob = async (
   await addMessageToQueue(
     config.deviceTreeTaskQueue,
     DEVICETREE_REQUEST,
+    payload
+  )
+}
+
+export const enqueueDebugJob = async (
+  payload: IDebugPayload
+) => {
+  await addMessageToQueue(
+    config.debugTaskQueue,
+    DEBUG_REQUEST,
     payload
   )
 }

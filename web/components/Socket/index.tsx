@@ -9,6 +9,7 @@ import {
   ASSET_STATUS_EVENT,
   CHAT_QUERY_REPLY_EVENT,
   DATASHEET_REPLY_EVENT,
+  DEBUG_REPLY_EVENT,
   DEVICETREE_REPLY_EVENT,
   SOCKET_CONNECTION_MESSAGE,
 } from '@/lib/socket/events'
@@ -28,6 +29,7 @@ const SocketConnector = () => {
   const addMessage = useStore((state) => state.addMessage)
   const setDatasheetFiles = useStore((state) => state.setDatasheetFiles)
   const setDevicetreeResponse = useStore((state) => state.setDevicetreeResponse)
+  const setDebugResponse = useStore((state) => state.setDebugResponse)
   // const activeChat = useStore((state) => state.activeChat)
 
   const connectSocket = async (session: Session) => {
@@ -56,6 +58,11 @@ const SocketConnector = () => {
 
     newSocket.on(DEVICETREE_REPLY_EVENT, ({ response }) => {
       setDevicetreeResponse(response)
+    })
+
+    newSocket.on(DEBUG_REPLY_EVENT, ({ response }) => {
+      console.log(response, 'debug response')
+      setDebugResponse(response)
     })
 
     newSocket.on(ASSET_STATUS_EVENT, ({ assetId, status }) => {
